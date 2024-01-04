@@ -1,8 +1,8 @@
 {
-  "name": "@future-scholars/paperlib-demo-helloworld-extension",
-  "version": "0.0.2",
-  "author": "Paperlib",
-  "description": "A helloworld extension for PaperLib.",
+  "name": "your-extension-name",
+  "version": "0.0.0",
+  "author": "author-name",
+  "description": "A extension for PaperLib.",
   "main": "dist/main.js",
   "type": "commonjs",
   "scripts": {
@@ -14,8 +14,8 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
-    "@types/node": "^20.10.4",
-    "paperlib-api": "^0.0.1",
+    "@types/node": "16.17.1",
+    "paperlib-api": "^0.0.13",
     "prettier": "^3.1.1",
     "prettier-plugin-organize-imports": "^3.2.4",
     "rollup-plugin-hypothetical": "^2.1.1",
