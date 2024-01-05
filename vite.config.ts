@@ -12,7 +12,6 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, "src/main.ts"),
       fileName: "main",
-      name: "PaperlibHelloworldExtension",
       formats: ["cjs"],
     },
     rollupOptions: {

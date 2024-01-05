@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "Node16",
+    "module": "ESNext",
     "composite": true,
-    "moduleResolution": "Node16",
+    "moduleResolution": "Bundler",
     "isolatedModules": true,
     "importHelpers": true,
     "jsx": "preserve",
