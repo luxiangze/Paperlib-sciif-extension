@@ -7,7 +7,7 @@ import { defineConfig } from "vite";
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    minify: false,
+    minify: true,
     reportCompressedSize: true,
     lib: {
       entry: path.resolve(__dirname, "src/main.ts"),
@@ -38,7 +38,7 @@ export default defineConfig({
   plugins: [
     commonjs(),
     modify({
-      find: /import\s*{\s*[\s\S]*}\s*from\s*"paperlib-api";?/,
+      find: /import\s*{\s*[\s\S]*}\s*from\s*"paperlib-api?/,
       replace: (match, path) => {
         const m = match
           .replace(/PLAPI\s*,?\s*/g, "")

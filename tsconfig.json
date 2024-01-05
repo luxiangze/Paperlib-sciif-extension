@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es2022",
-    "module": "es2022",
+    "target": "ESNext",
+    "module": "Node16",
     "composite": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node16",
     "isolatedModules": true,
     "importHelpers": true,
     "jsx": "preserve",
@@ -21,7 +21,7 @@
     },
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "types": ["node"],
+    "types": ["node"]
   },
   "include": [
     "src/**/*.ts",
