@@ -6,15 +6,15 @@ class PaperlibsciifExtension extends PLExtension {
 
   constructor() {
     super({
-      id: "paperlib-sciif-extension",
-      defaultPreference: {
-        key:{
-          type: "string",
-          name: "secretKey",
-          desprition: "The extension alow users to show paper's sciif by setting easyscholar SecretKey.",
-          value: "",
+    id: "paperlib-sciif-extension",
+    defaultPreference: {
+        secretkey: {
+            type: "string",
+            name: "secretKey",
+            description: "The extension alow users to show paper's sciif by setting easyscholar SecretKey.",
+            value: "",
         },
-      },
+    },
     });
 
     this.disposeCallbacks = [];
@@ -58,7 +58,7 @@ class PaperlibsciifExtension extends PLExtension {
     });
 
     let scrapeURL: string = "";
-    const secretKey = PLExtAPI.extensionPreferenceService.get(this.id, "key");
+    const secretKey = PLExtAPI.extensionPreferenceService.get(this.id, "secretkey");
     const publication = encodeURIComponent(paperEntity.publication);
     if (paperEntity.publication !== "") {
       scrapeURL = `https://www.easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publication}`;
