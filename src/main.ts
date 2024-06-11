@@ -10,8 +10,8 @@ class PaperlibsciifExtension extends PLExtension {
       defaultPreference: {
         "secretkey": {
           type: "string",
-          name: "secretKey",
-          description: "The extension alow users to show paper's sciif by setting easyscholar SecretKey.",
+          name: "Easyscholar SecretKey",
+          description: "The SecretKey get from https://www.easyscholar.cc.",
           value: "",
         },
       },
