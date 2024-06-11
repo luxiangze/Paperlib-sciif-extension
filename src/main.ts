@@ -6,16 +6,16 @@ class PaperlibsciifExtension extends PLExtension {
 
   constructor() {
     super({
-    id: "paperlib-sciif-extension",
-    defaultPreference: {
-        secretkey: {
-            type: "string",
-            name: "secretKey",
-            description: "The extension alow users to show paper's sciif by setting easyscholar SecretKey.",
-            value: "",
+      id: "paperlib-sciif-extension",
+      defaultPreference: {
+        "secretkey": {
+          type: "string",
+          name: "secretKey",
+          description: "The extension alow users to show paper's sciif by setting easyscholar SecretKey.",
+          value: "",
         },
-    },
-    });
+      },
+      });
 
     this.disposeCallbacks = [];
   }
@@ -47,7 +47,7 @@ class PaperlibsciifExtension extends PLExtension {
 
     const lang = await PLAPI.preferenceService.get("language");
 
-    const title = lang === "zh-CN" ? "SCI影响因子" : "SCI IF";
+    const title = lang === "zh-CN" ? "影响因子" : "IF";
 
 
     await PLAPI.uiSlotService.updateSlot("paperDetailsPanelSlot1", {
@@ -73,11 +73,40 @@ class PaperlibsciifExtension extends PLExtension {
         true,
         true
       );
-      const parsedResponse = response.body;
+      PLAPI.logService.info(
+        `Get sciif response: ${response.status}`,
+        "",
+        false,
+        "SCIIFExt"
+      );
 
+      const parsedResponse = response.body;
+      let itemList;
+      if (parsedResponse.code === 200 && parsedResponse.data !== null) {
+        itemList = parsedResponse.data;
+      } else {
+        PLAPI.logService.warn(
+          "The response data is empty.",
+          "",
+          false,
+          "SCIIFExt"
+        );
+        return;
+      }
+      const officialRank = itemList.officialRank;
+      const items = officialRank.all;
+      const itemsLength = Object.keys(items).length;;
+
+      PLAPI.logService.info(
+        `Get the item counts: ${itemsLength}`,
+        "",
+        false,
+        "SCIIFExt"
+      );
+      
       const pubilicationSCIIF = {
-        sciif: "${parsedResponse.data.offcialRank.all.sciif}",
-        sci: "${parsedResponse.data.offcialRank.all.sci}",
+        sciif: `${items.sciif}`,
+        sci: `${items.sci}`,
       };
 
       PLAPI.uiSlotService.updateSlot("paperDetailsPanelSlot1", {
@@ -91,7 +120,7 @@ class PaperlibsciifExtension extends PLExtension {
         PLAPI.logService.warn(
           "The easyscholar SecretKey is invalid. Please check the key in the extension preference.",
           "",
-          false,
+          true,
           "SCIIFExt"
         );
         return;
@@ -100,7 +129,7 @@ class PaperlibsciifExtension extends PLExtension {
       PLAPI.logService.error(
         "Failed to get sciif.",
         err as Error,
-        false,
+        true,
         "SCIIFExt"
       );
     }
