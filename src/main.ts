@@ -129,7 +129,7 @@ class PaperlibsciifExtension extends PLExtension {
       PLAPI.logService.error(
         "Failed to get sciif.",
         err as Error,
-        true,
+        false,
         "SCIIFExt"
       );
     }

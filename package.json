@@ -1,8 +1,8 @@
 {
   "name": "paperlib-sciif-extension",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "luxiangze",
-  "description": "The extension alow users to show paper's sciif by setting easyscholar SecretKey.",
+  "description": "The extension allow users to show paper's SCI rank and SCIIF by setting Easyscholar SecretKey.",
   "main": "dist/main.js",
   "type": "commonjs",
   "manifest_version": "0.1.8",
