@@ -18,11 +18,11 @@ class PaperlibsciifExtension extends PLExtension {
         "CCF": {
           type: "boolean",
           name: "Is show the CCF rank",
-          describtion: "Is show the CCF rank in the paper details panel.",
+          description: "Is show the CCF rank in the paper details panel.",
           value: false,
         },
       },
-      });
+    });
 
     this.disposeCallbacks = [];
   }
@@ -57,19 +57,24 @@ class PaperlibsciifExtension extends PLExtension {
 
 
     await PLAPI.uiSlotService.updateSlot("paperDetailsPanelSlot1", {
-      "pubilicationSCIIF": {
+      "publicationSCIIF": {
         title: title,
         content: `N/A`,
       },
     });
+
     const showCCF = await PLExtAPI.extensionPreferenceService.get(this.id, "CCF");
 
-    if (showCCF === true) {
+    if (showCCF) {
       await PLAPI.uiSlotService.updateSlot("paperDetailsPanelSlot1", {
-        "pubilicationCCF": {
+        "publicationCCF": {
           title: "CCF",
           content: `N/A`,
         },
+      });
+    } else {
+      await PLAPI.uiSlotService.updateSlot("paperDetailsPanelSlot1", {
+        "publicationCCF": undefined
       });
     }
 
@@ -111,39 +116,35 @@ class PaperlibsciifExtension extends PLExtension {
       }
       const officialRank = itemList.officialRank;
       const items = officialRank.all;
-      const itemsLength = Object.keys(items).length;;
 
-      PLAPI.logService.info(
-        `Get the item counts: ${itemsLength}`,
-        "",
-        false,
-        "SCIIFExt"
-      );
+      const SCIIF = {
+        sciif: items.sciif ? `${items.sciif}` : 'N/A',
+        sci: items.sciif ? `${items.sci}` : 'N/A',
+      };
+
+
+
+      const CCF = {
+        ccf: items.ccf ? `${items.ccf}` : 'N/A',
+      };
+
+      PLAPI.uiSlotService.updateSlot("paperDetailsPanelSlot1", {
+        "publicationSCIIF": {
+          title: title,
+          content: `${SCIIF.sci} (${SCIIF.sciif})`,
+        },
+      });
       
-      const pubilicationSCIIF = {
-        sciif: `${items.sciif}`,
-        sci: `${items.sci}`,
-      };
-
-      const pubilicationCCF = {
-        ccf: `${items.ccf}`,
-      };
-
-      if (pubilicationSCIIF.sci !== null ) {
+      if (showCCF) {
         PLAPI.uiSlotService.updateSlot("paperDetailsPanelSlot1", {
-          "pubilicationSCIIF": {
-            title: title,
-            content: `${pubilicationSCIIF.sci} (${pubilicationSCIIF.sciif})`,
+          "publicationCCF": {
+            title: "CCF",
+            content: `${CCF.ccf}`,
           },
         });
-      }
-
-      if ( showCCF === true && pubilicationCCF.ccf !== null ) {
+      } else {
         PLAPI.uiSlotService.updateSlot("paperDetailsPanelSlot1", {
-          "pubilicationCCF": {
-            title: "CCF",
-            content: `${pubilicationCCF.ccf}`,
-          },
+          "publicationCCF": undefined
         });
       }
       
