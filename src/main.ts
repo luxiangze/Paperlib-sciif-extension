@@ -17,8 +17,8 @@ class PaperlibsciifExtension extends PLExtension {
         },
         "CCF": {
           type: "boolean",
-          name: "Is show the CCF rank",
-          description: "Is show the CCF rank in the paper details panel.",
+          name: "CCF",
+          description: "Show the CCF rank in the paper details panel.",
           value: false,
         },
       },
