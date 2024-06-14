@@ -1,3 +1,4 @@
+import { describe } from "node:test";
 import { PLAPI, PLExtAPI, PLExtension } from "paperlib-api/api";
 import { PaperEntity } from "paperlib-api/model";
 
@@ -13,6 +14,12 @@ class PaperlibsciifExtension extends PLExtension {
           name: "Easyscholar SecretKey",
           description: "The SecretKey get from https://www.easyscholar.cc.",
           value: "",
+        },
+        "CCF": {
+          type: "boolean",
+          name: "Is show the CCF rank",
+          describtion: "Is show the CCF rank in the paper details panel.",
+          value: false,
         },
       },
       });
@@ -46,7 +53,6 @@ class PaperlibsciifExtension extends PLExtension {
   async getPapersci(paperEntity: PaperEntity) {
 
     const lang = await PLAPI.preferenceService.get("language");
-
     const title = lang === "zh-CN" ? "影响因子" : "IF";
 
 
@@ -56,9 +62,19 @@ class PaperlibsciifExtension extends PLExtension {
         content: `N/A`,
       },
     });
+    const showCCF = await PLExtAPI.extensionPreferenceService.get(this.id, "CCF");
+
+    if (showCCF === true) {
+      await PLAPI.uiSlotService.updateSlot("paperDetailsPanelSlot1", {
+        "pubilicationCCF": {
+          title: "CCF",
+          content: `N/A`,
+        },
+      });
+    }
 
     let scrapeURL: string = "";
-    const secretKey = PLExtAPI.extensionPreferenceService.get(this.id, "secretkey");
+    const secretKey = await PLExtAPI.extensionPreferenceService.get(this.id, "secretkey");
     const publication = encodeURIComponent(paperEntity.publication);
     if (paperEntity.publication !== "") {
       scrapeURL = `https://www.easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publication}`;
@@ -109,12 +125,28 @@ class PaperlibsciifExtension extends PLExtension {
         sci: `${items.sci}`,
       };
 
-      PLAPI.uiSlotService.updateSlot("paperDetailsPanelSlot1", {
-        "pubilicationSCIIF": {
-          title: title,
-          content: `${pubilicationSCIIF.sci} (${pubilicationSCIIF.sciif})`,
-        },
-      });
+      const pubilicationCCF = {
+        ccf: `${items.ccf}`,
+      };
+
+      if (pubilicationSCIIF.sci !== null ) {
+        PLAPI.uiSlotService.updateSlot("paperDetailsPanelSlot1", {
+          "pubilicationSCIIF": {
+            title: title,
+            content: `${pubilicationSCIIF.sci} (${pubilicationSCIIF.sciif})`,
+          },
+        });
+      }
+
+      if ( showCCF === true && pubilicationCCF.ccf !== null ) {
+        PLAPI.uiSlotService.updateSlot("paperDetailsPanelSlot1", {
+          "pubilicationCCF": {
+            title: "CCF",
+            content: `${pubilicationCCF.ccf}`,
+          },
+        });
+      }
+      
     } catch (err) {
       if ((err as Error).message.includes("Key错误")) {
         PLAPI.logService.warn(
