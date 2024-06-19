@@ -14,14 +14,14 @@ class PaperlibsciifExtension extends PLExtension {
           name: "Easyscholar SecretKey",
           description: "The SecretKey get from https://www.easyscholar.cc.",
           value: "",
-          order: 1,
+          order: 2,
         },
         "CCF": {
           type: "boolean",
           name: "CCF",
           description: "Show the CCF rank in the paper details panel.",
           value: false,
-          order: 2,
+          order: 1,
         },
       },
     });

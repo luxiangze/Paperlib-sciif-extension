@@ -1,9 +1,2 @@
-# Paperlib Extension Development Environment
-
-This is a development environment for paperlib extension.
-
-## Install
-`npm install`
-
-## Build
-`npm run build`
+# Paperlib-SCIIF-extension
+The extension allow users to show paper's SCI rank, SCIIF and CCF rank by setting Easyscholar SecretKey.
