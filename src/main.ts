@@ -145,9 +145,7 @@ class PaperlibsciifExtension extends PLExtension {
           },
         });
       } else {
-        PLAPI.uiSlotService.updateSlot("paperDetailsPanelSlot1", {
-          "publicationCCF": undefined
-        });
+        PLAPI.uiSlotService.deleteSlotItem("paperDetailsPanelSlot1","publicationCCF");
       }
       
     } catch (err) {
